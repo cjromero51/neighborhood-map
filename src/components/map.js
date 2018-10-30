@@ -11,6 +11,9 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>
 ))
 
 class Map extends Component {
+  state = {
+    
+  }
   render() {
     return (
       <MyMapComponent
