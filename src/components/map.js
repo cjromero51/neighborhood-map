@@ -12,11 +12,12 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>
 
 class Map extends Component {
   state = {
-    
+
   }
   render() {
     return (
       <MyMapComponent
+        className="map"
         isMarkerShown
         googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyD_rQ82cUaUQCWKy4yaKARttEo3gEaFbbg"
         loadingElement={<div style={{ height: `100%` }} />}

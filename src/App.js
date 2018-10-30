@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import Map from './components/map';
 import Sidebar from './components/sidebar'
+import SearchAPI from './APIs/helper'
 
 class App extends Component {
-  state = {
-
-  }
   render() {
     return (
       <div className="App">
