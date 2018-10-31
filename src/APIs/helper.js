@@ -6,9 +6,9 @@ class Helper {
     const keys = {
       client_id: "GGILFX5DNYX4U4X5LOQRTQJJRBNMKC45LFX0ZPXN2D0IL3RE",
       client_secret: "2IAIBAJ20H0ZOQEUVGN100W4DBGVYNXIMCA5D0TSUZIDB4PC",
-      version:"20181029"
+      v: "20181029"
     }
-    return Object.keys(keys).map(key => `${key} = ${keys[key]}`).join('&');
+    return Object.keys(keys).map(key => `${key}=${keys[key]}`).join('&');
   }
   static headers() {
     return {
@@ -19,7 +19,7 @@ class Helper {
     if (!params) {
       return ''
     }
-    return Object.keys(params).map(key => `${key} = ${params[key]}`).join('&');
+    return Object.keys(params).map(key => `${key}=${params[key]}`).join('&');
   }
   static myFetch(endpoint,method,params) {
     let getData = {
@@ -34,12 +34,12 @@ class Helper {
 
 export default class SearchAPI {
   static searchVenues(params) {
-    return Helper.myFetch("/venues/search", "GET", params);
+    return Helper.myFetch("/venues/search","GET",params);
   }
   static getVenueData(VENUE_ID) {
-    return Helper.myFetch(`venues/${VENUE_ID}`, "GET")
+    return Helper.myFetch(`venues/${VENUE_ID}`,"GET")
   }
   static getVenuePhotos(VENUE_ID) {
-    return Helper.myFetch(`/venues/${VENUE_ID}/photos`, "GET")
+    return Helper.myFetch(`/venues/${VENUE_ID}/photos`,"GET")
   }
 }
