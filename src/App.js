@@ -14,6 +14,10 @@ class App extends Component {
       zoom: 14
     }
   }
+  markerClick = marker => {
+    marker.isOpen = true;
+    this.setState({markers: Object.assign(this.state.markers,marker)});
+  }
   componentDidMount(){
     SearchAPI.searchVenues({
       near:"Los Angeles, CA",
@@ -34,11 +38,15 @@ class App extends Component {
       console.log(search)
     })
   }
+
   render() {
     return (
       <div className="App">
         <Sidebar/>
-        <Map {...this.state}/>
+        <Map
+        {...this.state}
+        markerClick={this.markerClick}
+        />
       </div>
     );
   }
