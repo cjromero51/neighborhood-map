@@ -5,19 +5,19 @@ import Sidebar from './components/sidebar'
 import SearchAPI from './APIs/helper'
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      venues: [],
-      markers: [],
-      center: [],
-      zoom: 14
-    }
+  state = {
+    venues: [],
+    markers: [],
+    center: [],
+    zoom: 14
   }
+
   markerClick = marker => {
     marker.isOpen = true;
-    this.setState({markers: Object.assign(this.state.markers,marker)});
+    this.setState({markers: Object.assign(this.state.markers,marker)})
   }
+
+
   componentDidMount(){
     SearchAPI.searchVenues({
       near:"Los Angeles, CA",
@@ -26,6 +26,7 @@ class App extends Component {
     }).then( search => {
       const { venues } = search.response
       const { center } = search.response.geocode.feature.geometry
+      console.log({center})
       const markers = venues.map(venue => {
         return {
           lat: venue.location.lat,
@@ -46,6 +47,7 @@ class App extends Component {
         <Map
         {...this.state}
         markerClick={this.markerClick}
+        oneMarker={this.oneMarker}
         />
       </div>
     );

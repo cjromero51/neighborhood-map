@@ -4,9 +4,9 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "reac
 const MyMapComponent = withScriptjs(withGoogleMap((props) =>
   <GoogleMap
     defaultZoom={8}
-    zoom={props.zoom}
-    defaultCenter={{lat: 34.0522,lng: 118.2437}}
-    center={props.center}
+    zoom={ props.zoom }
+    defaultCenter={{ lat: 34.0522,lng: 118.2437 }}
+    center={ props.center }
   >
     {props.markers && props.markers.filter(mark => mark.isVisible)
       .map((marker,index) => (
