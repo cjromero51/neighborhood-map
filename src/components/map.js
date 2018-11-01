@@ -12,7 +12,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>
       .map((marker,index) => (
       <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }} onClick={() => props.markerClick(marker)}>
       {marker.isOpen && (
-        <InfoWindow><p>hello world</p></InfoWindow>
+        <InfoWindow onClick={() => props.infoWindowClosed(marker)}><p>hello world</p></InfoWindow>
       )}
     </Marker>
     ))}

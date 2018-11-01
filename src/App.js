@@ -11,12 +11,28 @@ class App extends Component {
     center: [],
     zoom: 14
   }
-
+  clearInfoWindow = () => {
+    let currentMarkers = this.state.markers;
+    let markerIsOpenArray = [];
+    currentMarkers.map(marker => {
+      marker.isOpen = false;
+      markerIsOpenArray.push(marker)
+    })
+    currentMarkers = markerIsOpenArray;
+    this.setState({markers: Object.assign(this.state.markers,currentMarkers)})
+  }
   markerClick = marker => {
+    this.clearInfoWindow();
     marker.isOpen = true;
     this.setState({markers: Object.assign(this.state.markers,marker)})
+    SearchAPI.getVenueData(marker.id).then(res => console.log(res))
   }
 
+  infoWindowClosed = marker => {
+    marker.isOpen = false;
+    this.setState({markers: Object.assign(this.state.markers,marker)})
+    console.log(marker)
+  }
 
   componentDidMount(){
     SearchAPI.searchVenues({
@@ -26,17 +42,16 @@ class App extends Component {
     }).then( search => {
       const { venues } = search.response
       const { center } = search.response.geocode.feature.geometry
-      console.log({center})
       const markers = venues.map(venue => {
         return {
           lat: venue.location.lat,
           lng: venue.location.lng,
           isOpen: false,
-          isVisible: true
+          isVisible: true,
+          id: venue.id
         }
       })
       this.setState({venues, center, markers})
-      console.log(search)
     })
   }
 
@@ -48,6 +63,8 @@ class App extends Component {
         {...this.state}
         markerClick={this.markerClick}
         oneMarker={this.oneMarker}
+        infoWindowClosed={this.infoWindowClosed}
+        clearInfoWindow={this.clearInfoWindow}
         />
       </div>
     );
