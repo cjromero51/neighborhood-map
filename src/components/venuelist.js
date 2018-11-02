@@ -10,7 +10,12 @@ class VenueList extends Component {
       <div>
         <ul className='venue-list'>
         {this.props.venues &&
-          this.props.venues.map((venue,index) => (<VenueItem key={index} {...venue}/>
+          this.props.venues.map((venue,index) => (<VenueItem
+            key={index}
+            {...venue}
+            clickedVenue={this.props.clickedVenue}
+            markerClick={this.props.markerClick}
+            />
       ))}
         </ul>
       </div>

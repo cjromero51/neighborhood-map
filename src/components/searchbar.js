@@ -17,22 +17,24 @@ class Searchbar extends Component {
   }
   render() {
     return (
-      <div className="searchbar" >
+      <div className="search-container">
         <input
+          id={"search-bar"}
           type="search"
           placeholder="Search"
           onChange={(event) => this.inputChange(event.target.value)}
           value={this.state.query.value}
           />
-        <form>
-          <button onClick={(event) => {
-            event.preventDefault();
-            this.filterVenues(this.state.query.value);
-          }}>Submit</button>
-        </form>
       </div>
     );
   }
 }
 
 export default Searchbar;
+//
+// <form>
+//   <button onClick={(event) => {
+//     event.preventDefault();
+//     this.filterVenues(this.state.query.value);
+//   }}>Submit</button>
+// </form>

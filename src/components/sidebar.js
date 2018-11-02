@@ -9,7 +9,11 @@ class Sidebar extends Component {
     return (
       <div className="sidebar" style={{width:`25%`, height:`100%`}}>
         <Searchbar {...this.props}/>
-        <VenueList {...this.props}/>
+        <VenueList
+          {...this.props}
+          clickedVenue={this.props.clickedVenue}
+          markerClick={this.props.markerClick}
+          />
       </div>
     );
   }

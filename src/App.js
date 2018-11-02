@@ -11,6 +11,7 @@ class App extends Component {
     center: [],
     zoom: 14
   }
+  //clears all info windows from the screen
   clearInfoWindow = () => {
     let currentMarkers = this.state.markers;
     let markerIsOpenArray = [];
@@ -21,6 +22,7 @@ class App extends Component {
     currentMarkers = markerIsOpenArray;
     this.setState({markers: Object.assign(this.state.markers,currentMarkers)})
   }
+  //event fires when a marker is clicked directly
   markerClick = marker => {
     this.clearInfoWindow();
     marker.isOpen = true;
@@ -33,11 +35,14 @@ class App extends Component {
       console.log(this.state.venues, "post")
     })
   }
-
+  clickedVenue = place => {
+    const correspondingMarker = this.state.markers.find(marker => marker.id === place.id)
+    this.markerClick(correspondingMarker);
+  }
+  //sets the marker to closed to close info window
   infoWindowClosed = marker => {
     marker.isOpen = false;
     this.setState({markers: Object.assign(this.state.markers,marker)})
-    console.log(marker)
   }
 
   componentDidMount(){
@@ -65,6 +70,8 @@ class App extends Component {
       <div className="App" style={{display:`flex`}}>
         <Sidebar
           {...this.state}
+          clickedVenue={this.clickedVenue}
+          markerClick={this.markerClick}
           />
         <Map
         {...this.state}
