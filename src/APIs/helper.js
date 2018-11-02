@@ -37,7 +37,7 @@ export default class SearchAPI {
     return Helper.myFetch("/venues/search","GET",params);
   }
   static getVenueData(VENUE_ID) {
-    return Helper.myFetch(`venues/${VENUE_ID}`,"GET")
+    return Helper.myFetch(`/venues/${VENUE_ID}`,"GET")
   }
   static getVenuePhotos(VENUE_ID) {
     return Helper.myFetch(`/venues/${VENUE_ID}/photos`,"GET")

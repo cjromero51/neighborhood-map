@@ -16,7 +16,7 @@ class App extends Component {
     let markerIsOpenArray = [];
     currentMarkers.map(marker => {
       marker.isOpen = false;
-      markerIsOpenArray.push(marker)
+      return markerIsOpenArray.push(marker)
     })
     currentMarkers = markerIsOpenArray;
     this.setState({markers: Object.assign(this.state.markers,currentMarkers)})
@@ -24,8 +24,14 @@ class App extends Component {
   markerClick = marker => {
     this.clearInfoWindow();
     marker.isOpen = true;
-    this.setState({markers: Object.assign(this.state.markers,marker)})
-    SearchAPI.getVenueData(marker.id).then(res => console.log(res))
+    this.setState({markers: Object.assign(this.state.markers,marker)});
+    const filteredVenues = this.state.venues.find(venue => venue.id === marker.id)
+    SearchAPI.getVenueData(marker.id).then(res => {
+      const mergedVenue = Object.assign(res.response.venue, filteredVenues)
+      // console.log(mergedVenue)
+      this.setState({venues:Object.assign(this.state.venues, mergedVenue)})
+      // console.log(this.state.venues)
+    })
   }
 
   infoWindowClosed = marker => {

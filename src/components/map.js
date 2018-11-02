@@ -9,13 +9,19 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>
     center={ props.center }
   >
     {props.markers && props.markers.filter(mark => mark.isVisible)
-      .map((marker,index) => (
+      .map((marker,index) => {
+        const venueData = props.venues.find(venue => venue.id === marker.id)
+      return (
       <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }} onClick={() => props.markerClick(marker)}>
-      {marker.isOpen && (
-        <InfoWindow onClick={() => props.infoWindowClosed(marker)}><p>hello world</p></InfoWindow>
+      {marker.isOpen && venueData.bestPhoto && (
+        <InfoWindow onClick={() => props.infoWindowClosed(marker)}>
+          <img src={`${venueData.bestPhoto.prefix}150x150${venueData.bestPhoto.suffix}`} alt={`${venueData.name} scenery`}/>
+          <div>{venueData.name}</div>
+        </InfoWindow>
       )}
     </Marker>
-    ))}
+  )})
+  }
   </GoogleMap>
 ))
 
