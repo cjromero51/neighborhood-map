@@ -15,8 +15,10 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>
       <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }} onClick={() => props.markerClick(marker)}>
       {marker.isOpen && venueData.bestPhoto && (
         <InfoWindow onClick={() => props.infoWindowClosed(marker)}>
+          <React.Fragment>
+            <p>{venueData.name}</p>
           <img src={`${venueData.bestPhoto.prefix}150x150${venueData.bestPhoto.suffix}`} alt={`${venueData.name} scenery`}/>
-          <div>{venueData.name}</div>
+          </React.Fragment>
         </InfoWindow>
       )}
     </Marker>

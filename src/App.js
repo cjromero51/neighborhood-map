@@ -27,10 +27,10 @@ class App extends Component {
     this.setState({markers: Object.assign(this.state.markers,marker)});
     const filteredVenues = this.state.venues.find(venue => venue.id === marker.id)
     SearchAPI.getVenueData(marker.id).then(res => {
-      const mergedVenue = Object.assign(res.response.venue, filteredVenues)
-      // console.log(mergedVenue)
-      this.setState({venues:Object.assign(this.state.venues, mergedVenue)})
-      // console.log(this.state.venues)
+      const mergedVenue = Object.assign(filteredVenues, res.response.venue)
+      console.log(mergedVenue, "merged venue")
+      this.setState({venues: Object.assign(this.state.venues, mergedVenue)})
+      console.log(this.state.venues, "post")
     })
   }
 
@@ -44,7 +44,7 @@ class App extends Component {
     SearchAPI.searchVenues({
       near:"Los Angeles, CA",
       query: 'lol',
-      limit: 10
+      limit: 1
     }).then( search => {
       const { venues } = search.response
       const { center } = search.response.geocode.feature.geometry
