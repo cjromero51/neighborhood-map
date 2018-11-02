@@ -42,9 +42,8 @@ class App extends Component {
 
   componentDidMount(){
     SearchAPI.searchVenues({
-      near:"Los Angeles, CA",
-      query: 'lol',
-      limit: 1
+      near:"Castaic, CA",
+      limit: 5
     }).then( search => {
       const { venues } = search.response
       const { center } = search.response.geocode.feature.geometry
@@ -63,14 +62,17 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Sidebar/>
+      <div className="App" style={{display:`flex`}}>
+        <Sidebar
+          {...this.state}
+          />
         <Map
         {...this.state}
         markerClick={this.markerClick}
         oneMarker={this.oneMarker}
         infoWindowClosed={this.infoWindowClosed}
         clearInfoWindow={this.clearInfoWindow}
+        componentDidMount={this.componentDidMount}
         />
       </div>
     );
