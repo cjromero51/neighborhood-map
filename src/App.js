@@ -9,7 +9,10 @@ class App extends Component {
     venues: [],
     markers: [],
     center: [],
-    zoom: 14
+    zoom: 14,
+    updateState: (state) => {
+      this.setState({state})
+    }
   }
   //clears all info windows from the screen
   clearInfoWindow = () => {
@@ -30,14 +33,16 @@ class App extends Component {
     const filteredVenues = this.state.venues.find(venue => venue.id === marker.id)
     SearchAPI.getVenueData(marker.id).then(res => {
       const mergedVenue = Object.assign(filteredVenues, res.response.venue)
-      console.log(mergedVenue, "merged venue")
+      // console.log(mergedVenue, "merged venue")
       this.setState({venues: Object.assign(this.state.venues, mergedVenue)})
-      console.log(this.state.venues, "post")
+      // console.log(this.state.venues, "post")
     })
   }
+  //clicked venue from sidebar
   clickedVenue = place => {
     const correspondingMarker = this.state.markers.find(marker => marker.id === place.id)
     this.markerClick(correspondingMarker);
+    console.log(place)
   }
   //sets the marker to closed to close info window
   infoWindowClosed = marker => {
@@ -48,6 +53,7 @@ class App extends Component {
   componentDidMount(){
     SearchAPI.searchVenues({
       near:"Castaic, CA",
+      query:'food',
       limit: 5
     }).then( search => {
       const { venues } = search.response
