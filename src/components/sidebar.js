@@ -12,13 +12,11 @@ class Sidebar extends Component {
     this.setState({ query: event.target.value })
     const markers = this.props.venues.map(venue => {
       let matchedVenue = false;
-      if (venue.name.indexOf(event.target.value) !== -1) {
+      if (venue.name.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1) {
         matchedVenue = true;
       } else {
         matchedVenue = false;
       }
-      // venue.name.toLowerCase().includes(event.target.value.toLowerCase())
-
       const specificMarker = this.props.markers.find(marker => marker.id === venue.id)
       if (matchedVenue) {
         specificMarker.isVisible = true;
@@ -30,16 +28,13 @@ class Sidebar extends Component {
     this.props.updateState({markers})
   }
 // updates venue list in sidebar according to search input
-  filterVenues = (query) => {
+  filterVenues = () => {
     if (this.state.query !== '') {
-      const searchedVenue = new RegExp(this.state.query.value);
-      const remainingVenues = this.props.venues.filter(venue => {
-        const currentVenue = new RegExp(venue);
-        currentVenue.includes(searchedVenue)
-        return remainingVenues;
-      })
+      const venues = this.props.venues.filter(venue =>
+        venue.name.toLowerCase().indexOf(this.state.query.toLowerCase()) !== -1);
+      return venues
     }
-      return this.props.venues;
+      return this.props.venues
   }
 
   render() {
@@ -47,6 +42,8 @@ class Sidebar extends Component {
       <div className="sidebar" style={{width:`25%`, height:`100%`}}>
         <div className="search-container">
           <input
+            aria-label="Search Google Maps"
+            tabIndex="1"
             id={"search-bar"}
             type="search"
             placeholder="Search"
@@ -56,6 +53,7 @@ class Sidebar extends Component {
         </div>
         <VenueList
           {...this.props}
+          venues={this.filterVenues()}
           clickedVenue={this.props.clickedVenue}
           markerClick={this.props.markerClick}
           />

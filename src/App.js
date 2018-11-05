@@ -1,3 +1,4 @@
+/* global google */
 import React, { Component } from 'react';
 import './App.css';
 import Map from './components/map';
@@ -8,8 +9,8 @@ class App extends Component {
   state = {
     venues: [],
     markers: [],
-    center: [],
-    zoom: 14,
+    center: { lat: 34.0522,lng: 118.2437 },
+    zoom: 8,
     updateState: (state) => {
       this.setState({state})
     }
@@ -20,6 +21,7 @@ class App extends Component {
     let markerIsOpenArray = [];
     currentMarkers.map(marker => {
       marker.isOpen = false;
+      // marker.animation = google.maps.Animation.DROP
       return markerIsOpenArray.push(marker)
     })
     currentMarkers = markerIsOpenArray;
@@ -27,32 +29,34 @@ class App extends Component {
   }
   //event fires when a marker is clicked directly
   markerClick = marker => {
-    this.clearInfoWindow();
-    marker.isOpen = true;
-    this.setState({markers: Object.assign(this.state.markers,marker)});
-    const filteredVenues = this.state.venues.find(venue => venue.id === marker.id)
-    SearchAPI.getVenueData(marker.id).then(res => {
-      const mergedVenue = Object.assign(filteredVenues, res.response.venue)
-      // console.log(mergedVenue, "merged venue")
-      this.setState({venues: Object.assign(this.state.venues, mergedVenue)})
-      // console.log(this.state.venues, "post")
-    })
+    if (marker.isOpen) {
+      this.clearInfoWindow();
+    } else {
+      this.clearInfoWindow();
+      marker.isOpen = true;
+      // marker.animation = google.maps.Animation.BOUNCE
+      this.setState({markers: Object.assign(this.state.markers,marker)});
+      const filteredVenues = this.state.venues.find(venue => venue.id === marker.id)
+      SearchAPI.getVenueData(marker.id).then(res => {
+        const mergedVenue = Object.assign(filteredVenues, res.response.venue)
+        this.setState({venues: Object.assign(this.state.venues, mergedVenue)})
+      })
+    }
   }
   //clicked venue from sidebar
   clickedVenue = place => {
     const correspondingMarker = this.state.markers.find(marker => marker.id === place.id)
     this.markerClick(correspondingMarker);
-    console.log(place)
   }
   //sets the marker to closed to close info window
   infoWindowClosed = marker => {
     marker.isOpen = false;
     this.setState({markers: Object.assign(this.state.markers,marker)})
   }
-
+//initial load of markers
   componentDidMount(){
     SearchAPI.searchVenues({
-      near:"Castaic, CA",
+      near:"Valencia, CA",
       query:'food',
       limit: 5
     }).then( search => {
@@ -64,7 +68,9 @@ class App extends Component {
           lng: venue.location.lng,
           isOpen: false,
           isVisible: true,
-          id: venue.id
+          id: venue.id,
+          animation: google.maps.Animation.BOUNCE,
+          animation2: google.maps.Animation.DROP
         }
       })
       this.setState({venues, center, markers})

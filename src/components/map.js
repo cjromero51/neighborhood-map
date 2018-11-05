@@ -1,20 +1,21 @@
 import React, {Component} from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
-
+//creates markers on map based on app.js inputs
+//animations based on the value of current isOpen / isClosed
 const MyMapComponent = withScriptjs(withGoogleMap((props) =>
   <GoogleMap
-    defaultZoom={8}
+    defaultZoom={5}
     zoom={ props.zoom }
     defaultCenter={{ lat: 34.0522,lng: 118.2437 }}
     center={ props.center }
   >
     {props.markers && props.markers.filter(mark => mark.isVisible)
-      .map((marker,index) => {
+      .map((marker,index,arr) => {
         const venueData = props.venues.find(venue => venue.id === marker.id)
       return (
-      <Marker key={index} position={{ lat: marker.lat, lng: marker.lng }} onClick={() => props.markerClick(marker)}>
+      <Marker tabIndex="1" key={index} position={{ lat: marker.lat, lng: marker.lng }} onClick={() => props.markerClick(marker)} animation={marker.isOpen ? marker.animation : marker.animation2}>
       {marker.isOpen && venueData.bestPhoto && (
-        <InfoWindow onClick={() => props.infoWindowClosed(marker)}>
+        <InfoWindow tabIndex="1" onClick={() => props.infoWindowClosed(marker)}>
           <React.Fragment>
             <p>{venueData.name}</p>
           <img src={`${venueData.bestPhoto.prefix}150x150${venueData.bestPhoto.suffix}`} alt={`${venueData.name} scenery`}/>

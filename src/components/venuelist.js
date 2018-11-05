@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import VenueItem from './venue';
 
 class VenueList extends Component {
-  state = {
-
-  }
   render(){
     return (
       <div>
