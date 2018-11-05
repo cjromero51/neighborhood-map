@@ -33,8 +33,8 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>
 class Map extends Component {
   componentDidMount(){
     window.gm_authFailure = () => {
-      alert('ERROR!! \nFailed to get Google map.')
-      console.log('ERROR!! \nFailed to get Google map.')
+      alert('ERROR \nGetting the map failed.')
+      console.log('ERROR \nGetting the map failed.')
     }
   }
   render() {
