@@ -9,7 +9,6 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>
     zoom={ props.zoom }
     defaultCenter={{ lat: 34.0522,lng: 118.2437 }}
     center={ props.center }
-    onerror={"Map failed to load, please refresh the page"}
   >
     {props.markers && props.markers.filter(mark => mark.isVisible)
       .map((marker,index,arr) => {
