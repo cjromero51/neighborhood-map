@@ -92,6 +92,7 @@ class App extends Component {
         infoWindowClosed={this.infoWindowClosed}
         clearInfoWindow={this.clearInfoWindow}
         componentDidMount={this.componentDidMount}
+        somefunction={this.somefunction}
         />
       </div>
     );

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps";
+
 //creates markers on map based on app.js inputs
 //animations based on the value of current isOpen / isClosed
 const MyMapComponent = withScriptjs(withGoogleMap((props) =>
@@ -8,6 +9,7 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>
     zoom={ props.zoom }
     defaultCenter={{ lat: 34.0522,lng: 118.2437 }}
     center={ props.center }
+    onerror={"Map failed to load, please refresh the page"}
   >
     {props.markers && props.markers.filter(mark => mark.isVisible)
       .map((marker,index,arr) => {
@@ -29,12 +31,18 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>
 ))
 
 class Map extends Component {
+  componentDidMount(){
+    window.gm_authFailure = () => {
+      alert('ERROR!! \nFailed to get Google map.')
+      console.log('ERROR!! \nFailed to get Google map.')
+    }
+  }
   render() {
     return (
       <MyMapComponent
         className="map"
         {...this.props}
-        googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyD_rQ82cUaUQCWKy4yaKARttEo3gEaFbbg"
+        googleMapURL={'https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyD_rQ82cUaUQCWKy4yaKARttEo3gEaFbbg'}
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `100%`, width:`75%`, position:`right` }} />}
         mapElement={<div style={{ height: `100%` }} />}
